@@ -1,4 +1,4 @@
-defmodule LiveMedia.VideoToAudioConverter do
+defmodule LiveMedia.Video do
   @moduledoc """
   Módulo para converter vídeos MP4 para MP3 usando FFmpeg.
   """
@@ -17,13 +17,13 @@ defmodule LiveMedia.VideoToAudioConverter do
       :ok
 
   """
-  def convert(input_path, output_path) do
+  def to_audio(input_path, output_path) do
     case System.cmd("ffmpeg", ["-i", input_path, "-q:a", "0", "-map", "a", output_path]) do
       {_, 0} ->
         :ok
 
       {error_message, _exit_code} ->
-        {:error, error_message}
+        {:error, :directory_not_exist, error_message}
     end
   end
 end
