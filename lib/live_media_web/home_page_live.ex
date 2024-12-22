@@ -74,10 +74,8 @@ defmodule LiveMediaWeb.HomePageLive do
         end
       end)
 
-    IO.inspect List.first(uploaded_files)
-    {:noreply,
-     update(socket, :uploaded_files, &(&1 ++ uploaded_files))
-     |> update(:audio_path, List.first(uploaded_files))}
+    file_name = List.first(uploaded_files) |> String.split("/") |> List.last()
+    {:noreply, assign(socket, :uploaded_files, &(&1 ++ uploaded_files)) |> assign(:audio_path, file_name)}
   end
 
   defp error_to_string(:too_large), do: "Too large"
