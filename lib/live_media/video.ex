@@ -20,7 +20,7 @@ defmodule LiveMedia.Video do
   def to_audio(input_path, output_path) do
     case System.cmd("ffmpeg", ["-i", input_path, "-q:a", "0", "-map", "a", output_path]) do
       {_, 0} ->
-        :ok
+        {:ok, output_path}
 
       {error_message, _exit_code} ->
         {:error, :directory_not_exist, error_message}

@@ -1,11 +1,14 @@
 defmodule LiveMediaWeb.HomePageLive do
   use LiveMediaWeb, :live_view
 
+  alias LiveMedia.Video
+
   def mount(_params, _session, socket) do
     {:ok,
      socket
      |> assign(:uploaded_files, [])
-     |> allow_upload(:avatar, accept: ~w(.jpg .jpeg), max_entries: 2)}
+     |> allow_upload(:avatar, accept: ~w(.mp4), max_entries: 2)
+     |> assign(:audio_path, nil)}
   end
 
   def render(assigns) do
@@ -14,6 +17,11 @@ defmodule LiveMediaWeb.HomePageLive do
       <.live_file_input upload={@uploads.avatar} />
       <button type="submit">Upload</button>
     </form>
+
+    <%= if @audio_path do %>
+      <p>Download do áudio convertido:</p>
+      <a href={@audio_path} target="_blank">Baixar MP3</a>
+    <% end %>
     <section phx-drop-target={@uploads.avatar.ref}>
       <%!-- render each avatar entry --%>
       <article :for={entry <- @uploads.avatar.entries} class="upload-entry">
@@ -55,13 +63,21 @@ defmodule LiveMediaWeb.HomePageLive do
   def handle_event("save", _params, socket) do
     uploaded_files =
       consume_uploaded_entries(socket, :avatar, fn %{path: path}, _entry ->
-        dest = Path.join([:code.priv_dir(:live_media), "static", "uploads", Path.basename(path)])
-        # You will need to create `priv/static/uploads` for `File.cp!/2` to work.
-        File.cp!(path, dest)
-        {:ok, ~p"/uploads/#{Path.basename(dest)}"}
+        if path && File.exists?(path) do
+          audio_path =
+            Path.join([File.cwd!(), "priv/static/uploads", "#{Ecto.UUID.generate()}.mp3"])
+
+          case Video.to_audio(path, audio_path) do
+            {:error, reason, _} -> {:error, reason}
+            {:ok, _} = res -> res
+          end
+        end
       end)
 
-    {:noreply, update(socket, :uploaded_files, &(&1 ++ uploaded_files))}
+    IO.inspect List.first(uploaded_files)
+    {:noreply,
+     update(socket, :uploaded_files, &(&1 ++ uploaded_files))
+     |> update(:audio_path, List.first(uploaded_files))}
   end
 
   defp error_to_string(:too_large), do: "Too large"

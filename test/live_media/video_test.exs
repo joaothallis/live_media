@@ -5,8 +5,8 @@ defmodule LiveMedia.VideoTest do
 
   describe "to_audio/2" do
     test "converter video to audio and delete audio file" do
-      input_path = Path.join([File.cwd!(), "priv", "static", "uploads", "video.mp4"])
-      output_path = Path.join([File.cwd!(), "priv", "static", "uploads", "audio.mp3"])
+      input_path = Path.join([File.cwd!(), "priv/static/uploads", "video.mp4"])
+      output_path = Path.join([File.cwd!(), "priv/static/uploads", "audio.mp3"])
 
       Video.to_audio(input_path, output_path)
 
