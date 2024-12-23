@@ -1,17 +1,17 @@
 defmodule LiveMedia.Video do
   @moduledoc """
-  Módulo para converter vídeos MP4 para MP3 usando FFmpeg.
+  Module to convert MP4 videos to MP3 using FFmpeg.
   """
 
   @doc """
-  Converte um arquivo MP4 em MP3.
+  Convert a MP4 file to MP3.
 
-  ## Parâmetros
+  ## Parameters
 
-    - `input_path`: Caminho para o arquivo de vídeo MP4.
-    - `output_path`: Caminho para o arquivo de saída MP3.
+    - `input_path`: Path to the MP4 file.
+    - `output_path`: Path to the MP3 file.
 
-  ## Exemplo
+  ## Example
 
       iex> VideoToAudioConverter.convert("video.mp4", "audio.mp3")
       :ok
