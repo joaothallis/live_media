@@ -20,7 +20,7 @@ defmodule LiveMediaWeb.HomePageLive do
 
     <%= if @audio_path do %>
       <p>Download do áudio convertido:</p>
-      <a href={@audio_path} download >Baixar MP3</a>
+      <a href={@audio_path} download>Baixar MP3</a>
     <% end %>
     <section phx-drop-target={@uploads.avatar.ref}>
       <%!-- render each avatar entry --%>
