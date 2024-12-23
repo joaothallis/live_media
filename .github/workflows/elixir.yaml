@@ -37,6 +37,9 @@ jobs:
     runs-on: ubuntu-latest
     name: Test
     steps:
+    - name: Setup FFmpeg
+      uses: AnimMouse/setup-ffmpeg@v1
+
     # Step: Check out the code.
     - name: Checkout code
       uses: actions/checkout@v3
