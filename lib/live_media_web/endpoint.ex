@@ -27,7 +27,7 @@ defmodule LiveMediaWeb.Endpoint do
 
   plug Plug.Static,
     at: "/uploads",
-    from: :my_app,
+    from: "./priv/static/uploads",
     gzip: false
 
   # Code reloading can be explicitly enabled under the

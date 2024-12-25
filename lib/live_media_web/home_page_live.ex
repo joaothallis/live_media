@@ -65,7 +65,7 @@ defmodule LiveMediaWeb.HomePageLive do
       consume_uploaded_entries(socket, :avatar, fn %{path: path}, _entry ->
         if path && File.exists?(path) do
           audio_path =
-            Path.join([File.cwd!(), "priv/static/uploads", "#{Ecto.UUID.generate()}.mp3"])
+            Path.join(["./priv/static/uploads", "#{Ecto.UUID.generate()}.mp3"])
 
           case Video.to_audio(path, audio_path) do
             {:error, reason, _} -> {:error, reason}
