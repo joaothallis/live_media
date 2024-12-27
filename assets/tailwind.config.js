@@ -11,12 +11,9 @@ module.exports = {
     "../lib/live_media_web.ex",
     "../lib/live_media_web/**/*.*ex"
   ],
+  darkMode: 'class',
   theme: {
-    extend: {
-      colors: {
-        brand: "#FD4F00",
-      }
-    },
+    extend: {},
   },
   plugins: [
     require("@tailwindcss/forms"),

@@ -13,13 +13,13 @@ defmodule LiveMediaWeb.HomePageLive do
 
   def render(assigns) do
     ~H"""
-    <div class="max-w-4xl mx-auto mt-10 p-4 bg-white shadow rounded-lg">
+    <div class="dark:bg-black max-w-4xl mx-auto mt-10 p-4 shadow rounded-lg">
       <form id="upload-form" phx-submit="save" phx-change="validate" class="space-y-4">
         <div class="flex items-center justify-center w-full" phx-drop-target={@uploads.avatar.ref}>
-          <label
-            for="dropzone-file"
-            class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
-          >
+          <!-- Label que encapsula a área clicável -->
+          <label class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+            <!-- Input escondido, acionado pelo clique no label -->
+            <.live_file_input id="dropzone-file" upload={@uploads.avatar} class="hidden" />
             <div class="flex flex-col items-center justify-center pt-5 pb-6">
               <svg
                 class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
@@ -36,14 +36,14 @@ defmodule LiveMediaWeb.HomePageLive do
                   d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
                 />
               </svg>
+
               <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                <span class="font-semibold">Click to upload</span> or drag and drop
+                <span class="font-semibold">Clique para carregar</span> ou arraste e solte
               </p>
               <p class="text-xs text-gray-500 dark:text-gray-400">
-                SVG, PNG, JPG or GIF (MAX. 800x400px)
+                .mp4 (MAX. 10MB)
               </p>
             </div>
-            <.live_file_input id="dropzone-file" upload={@uploads.avatar} />
           </label>
         </div>
         <div>
@@ -70,7 +70,7 @@ defmodule LiveMediaWeb.HomePageLive do
         <article :for={entry <- @uploads.avatar.entries} class="bg-gray-50 p-4 rounded-lg shadow mb-4">
           <div class="flex items-center">
             <figure class="flex-shrink-0 mr-4">
-              <.live_img_preview entry={entry} class="w-16 h-16 rounded-md shadow" />
+              <!-- Placeholder para visualização de imagem -->
             </figure>
             <div>
               <figcaption class="text-sm font-medium text-gray-700">{entry.client_name}</figcaption>
@@ -117,7 +117,8 @@ defmodule LiveMediaWeb.HomePageLive do
   def handle_event("save", _params, socket) do
     uploaded_files =
       consume_uploaded_entries(socket, :avatar, fn %{path: path}, _entry ->
-        IO.inspect(File.cwd!(),label: "UPLOAD_TEST")
+        IO.inspect(File.cwd!(), label: "UPLOAD_TEST")
+
         if path && File.exists?(path) do
           audio_path =
             Path.join(["./priv/static/uploads", "#{Ecto.UUID.generate()}.mp3"])
