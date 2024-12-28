@@ -17,7 +17,7 @@ defmodule LiveMediaWeb.Router do
   scope "/", LiveMediaWeb do
     pipe_through :browser
 
-    live "/", HomePageLive
+    live "/", Live.HomePage
   end
 
   # Other scopes may use custom stacks.

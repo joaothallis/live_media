@@ -1,4 +1,4 @@
-defmodule LiveMediaWeb.HomePageLive do
+defmodule LiveMediaWeb.Live.HomePage do
   use LiveMediaWeb, :live_view
 
   alias LiveMedia.Video
