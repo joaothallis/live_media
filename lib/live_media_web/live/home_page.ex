@@ -7,7 +7,7 @@ defmodule LiveMediaWeb.Live.HomePage do
     {:ok,
      socket
      |> assign(:uploaded_files, [])
-     |> allow_upload(:avatar, accept: ~w(.mp4), max_entries: 2)
+     |> allow_upload(:avatar, accept: ~w(.mp4), max_entries: 1)
      |> assign(:audio_path, nil)}
   end
 
