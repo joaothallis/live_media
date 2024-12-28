@@ -19,7 +19,7 @@ defmodule LiveMediaWeb.Live.HomePage do
           MP4 to MP3
         </label>
         <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
-          Clique para selecionar um arquivo ou arraste e solte na área designada.
+          LIVEMedia
         </p>
       </div>
       <div class="dark:bg-black max-w-4xl mx-auto mt-10 p-4 shadow rounded-lg">
@@ -47,7 +47,7 @@ defmodule LiveMediaWeb.Live.HomePage do
                 </svg>
 
                 <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                  <span class="font-semibold">Clique para carregar</span> ou arraste e solte
+                  <span class="font-semibold">Click to upload</span> or drag and drop
                 </p>
                 <p class="text-xs text-gray-500 dark:text-gray-400">
                   .mp4 (MAX. 10MB)
@@ -66,9 +66,9 @@ defmodule LiveMediaWeb.Live.HomePage do
 
         <%= if @audio_path do %>
           <div class="mt-6 bg-green-50 border-l-4 border-green-400 p-4">
-            <p class="text-sm text-green-800">Download do áudio convertido:</p>
+            <p class="text-sm text-green-800">Download audio converted:</p>
             <a href={@audio_path} download class="text-indigo-600 hover:text-indigo-900 underline">
-              Baixar MP3
+              MP3 Download
             </a>
           </div>
         <% end %>
