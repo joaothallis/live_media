@@ -7,7 +7,7 @@ defmodule LiveMediaWeb.Live.HomePage do
     {:ok,
      socket
      |> assign(:uploaded_files, [])
-     |> allow_upload(:avatar, accept: ~w(.mp4), max_entries: 1)
+     |> allow_upload(:avatar, accept: ~w(.mp4 .avi .mov .wmv), max_entries: 1)
      |> assign(:audio_path, nil)}
   end
 
@@ -23,10 +23,7 @@ defmodule LiveMediaWeb.Live.HomePage do
     uploaded_files =
       consume_uploaded_entries(socket, :avatar, fn %{path: path}, _entry ->
         if path && File.exists?(path) do
-          audio_path =
-            Path.join(["./priv/static/uploads", "#{Ecto.UUID.generate()}.mp3"])
-
-          case Video.to_audio(path, audio_path) do
+          case Video.to_audio(path) do
             {:error, reason, _} -> {:error, reason}
             {:ok, _} = res -> res
           end

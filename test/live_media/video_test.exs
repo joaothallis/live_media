@@ -5,10 +5,9 @@ defmodule LiveMedia.VideoTest do
 
   describe "to_audio/2" do
     test "converter video to audio and delete audio file" do
-      input_path = Path.join([File.cwd!(), "priv/static/uploads", "video.mp4"])
-      output_path = Path.join([File.cwd!(), "priv/static/uploads", "audio.mp3"])
+      input_path = Path.join([File.cwd!(), "./priv/static/uploads", "video.mp4"])
 
-      Video.to_audio(input_path, output_path)
+      assert {:ok, output_path} = Video.to_audio(input_path)
 
       assert File.exists?(output_path)
       assert File.rm(output_path) == :ok
@@ -16,10 +15,9 @@ defmodule LiveMedia.VideoTest do
 
     test "return when path unexists" do
       input_path = ""
-      output_path = ""
 
-      assert {:error, :directory_not_exist, input_path} ==
-               Video.to_audio(input_path, output_path)
+      assert {:error, :conversion_failed, "", 254} ==
+               Video.to_audio(input_path)
     end
   end
 end

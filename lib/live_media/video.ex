@@ -4,26 +4,28 @@ defmodule LiveMedia.Video do
   """
 
   @doc """
-  Convert a MP4 file to MP3.
+  Convert a video file to MP3.
 
   ## Parameters
 
-    - `input_path`: Path to the MP4 file.
-    - `output_path`: Path to the MP3 file.
+    - `input_path`: Path to the video file.
 
   ## Example
 
-      iex> VideoToAudioConverter.convert("video.mp4", "audio.mp3")
+      iex> VideoToAudioConverter.convert("video.mp4")
       :ok
 
   """
-  def to_audio(input_path, output_path) do
-    case System.cmd("ffmpeg", ["-i", input_path, "-q:a", "0", "-map", "a", output_path]) do
-      {_, 0} ->
-        {:ok, output_path}
+  def to_audio(input_path) do
+    audio_path =
+      Path.join(["./priv/static/uploads", "#{Ecto.UUID.generate()}.mp3"])
 
-      {error_message, _exit_code} ->
-        {:error, :directory_not_exist, error_message}
+    case System.cmd("ffmpeg", ["-i", input_path, "-q:a", "0", "-map", "a?", audio_path]) do
+      {_, 0} ->
+        {:ok, audio_path}
+
+      {error_message, exit_code} ->
+        {:error, :conversion_failed, error_message, exit_code}
     end
   end
 end
