@@ -37,3 +37,4 @@ live_media-*.tar
 npm-debug.log
 /assets/node_modules/
 
+.env
