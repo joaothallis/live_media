@@ -24,7 +24,7 @@ defmodule LiveMediaWeb.Live.HomePage do
       consume_uploaded_entries(socket, :avatar, fn %{path: path}, _entry ->
         if path && File.exists?(path) do
           case Video.to_audio(path) do
-            {:error, reason, _} -> {:error, reason}
+            {:error, reason, _, _} -> {:error, reason}
             {:ok, _} = res -> res
           end
         end
